@@ -1,8 +1,12 @@
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jdk-jammy
+
 WORKDIR /app
 RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 
 COPY target/eureka-service-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8761
+ARG EUREKA_PORT=8761
+ENV EUREKA_PORT=${EUREKA_PORT}
+EXPOSE ${EUREKA_PORT}
+
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
